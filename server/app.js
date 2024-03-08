@@ -33,6 +33,7 @@ app.get("/artists", (req, res, next) => {
 })
 
 
+
 app.post("/artists", (req, res, next) => {
   // req.body({name});
   res.status(201);
@@ -40,15 +41,10 @@ app.post("/artists", (req, res, next) => {
   next()
 })
 
-app.get("/artists/:artistId", (req, res, next) => {
-  res.status(200);
-  console.log(getArtistByArtistId(req.params.artistId));
-  res.json(getArtistByArtistId(req.params.artistId))
-})
+
 
 app.delete("/artists/:artistId", (req, res, next) => {
   res.status(200);
-  console.log()
   deleteArtistByArtistId(req.params.artistId)
   res.json({
     "message": "Successfully deleted"
@@ -59,11 +55,46 @@ app.delete("/artists/:artistId", (req, res, next) => {
 app.get("/artists/:artistId/albums", (req, res, next) =>{
   res.status(200);
   res.json(getAlbumsByArtistId(req.params.artistId))
+  next()
 })
 
 app.get("/albums/:albumId", (req, res, next) =>{
   res.status(200);
   res.json(getAlbumByAlbumId(req.params.albumId))
+  next()
+})
+
+app.post("/artists/:artistId/albums", (req, res, next) => {
+  res.status(201);
+  res.json(addAlbumByArtistId(req.params.artistId, req.body))
+  next();
+})
+
+
+app.put("/albums/:albumId", (req, res, next) => {
+  res.status(200);
+  res.json(editAlbumByAlbumId(req.params.albumId, req.body));
+  next();
+})
+app.patch("/albums/:albumId", (req, res, next) => {
+  res.status(200);
+  res.json(editAlbumByAlbumId(req.params.albumId, req.body));
+  next();
+})
+
+app.delete("/albums/:albumId", (req, res, next) => {
+  res.status(200);
+  deleteAlbumByAlbumId(req.params.albumId)
+  res.json({
+    "message": "Successfully deleted"
+  })
+  next()
+})
+
+app.get("/albums*", (req, res, next) =>{
+  res.status(200);
+  res.json(getFilteredAlbums(req.query.startsWith));
+  next()
 })
 
 
